@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# MLflow
+mlruns/
+
+# DVC cache
+.dvc/cache/
+
+# Models (tracked via MLflow, not Git)
+models/
+
+# Metrics
+metrics/
+
+# Feature store artifacts
+feature_store/offline_features.csv
+feature_store/live_features.csv
+feature_store/online_store.db
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

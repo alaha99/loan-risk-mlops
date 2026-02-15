@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.env/
+
+# MLflow local tracking
+mlruns/
+
+# Models folder (handled by MLflow)
+models/
+
+# Metrics folder
+metrics/
+
+# Online store database (not reproducible artifact)
+feature_store/online_store.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log

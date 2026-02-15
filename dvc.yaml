@@ -1,0 +1,43 @@
+stages:
+
+  build_features:
+    cmd: python feature_store/build_features.py
+    deps:
+      - feature_store/build_features.py
+      - data/raw/applications.csv
+      - data/raw/labels.csv
+    outs:
+      - feature_store/offline_features.csv
+
+  build_online_store:
+    cmd: python feature_store/build_online_store.py
+    deps:
+      - feature_store/build_online_store.py
+      - feature_store/offline_features.csv
+    outs:
+      - feature_store/online_store.db
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - feature_store/offline_features.csv
+    outs:
+      - models/
+    metrics:
+      - metrics/train_metrics.json
+
+  compute_live_features:
+    cmd: python feature_store/compute_live_features.py
+    deps:
+      - feature_store/compute_live_features.py
+      - data/raw/live_applications.csv
+    outs:
+      - feature_store/live_features.csv
+
+  drift:
+    cmd: python src/drift.py
+    deps:
+      - src/drift.py
+      - feature_store/offline_features.csv
+      - feature_store/live_features.csv
