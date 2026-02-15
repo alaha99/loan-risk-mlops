@@ -1,0 +1,5 @@
+outs:
+- md5: c982acad41c881b69ae48a0e2ec7c6dc
+  size: 269
+  hash: md5
+  path: live_applications.csv
