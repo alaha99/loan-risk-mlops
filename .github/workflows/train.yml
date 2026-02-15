@@ -1,0 +1,27 @@
+name: Continuous Training
+
+on:
+  push:
+    paths:
+      - "data/**"
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: iterative/setup-dvc@v1
+
+      - name: Pull DVC data
+        run: dvc pull
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build features
+        run: python feature_store/build_features.py
+
+      - name: Train model
+        run: python training/train.py

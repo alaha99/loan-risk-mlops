@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - "feature_store/**"
+      - "training/**"
+      - "inference/**"
+      - "monitoring/**"
+      - "app/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run feature build
+        run: python feature_store/build_features.py
+
+      - name: Run drift check
+        run: python monitoring/drift_check.py
