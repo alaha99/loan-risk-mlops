@@ -1,13 +1,23 @@
 import sqlite3
-import mlflow.pyfunc
+import mlflow.sklearn
 import pandas as pd
 
-model = mlflow.pyfunc.load_model("models:/loan_risk_model/Production")
+# Load sklearn model (NOT pyfunc)
+model = mlflow.sklearn.load_model("models:/loan_risk_model/Production")
 
 def predict(applicant_id):
     conn = sqlite3.connect("feature_store/online_store.db")
-    df = pd.read_sql("SELECT * FROM features WHERE applicant_id=?", conn, params=(applicant_id,))
+
+    df = pd.read_sql(
+        "SELECT * FROM features WHERE applicant_id=?",
+        conn,
+        params=(applicant_id,)
+    )
+
     conn.close()
+
+    if df.empty:
+        raise ValueError(f"No features found for applicant_id: {applicant_id}")
 
     X = df.drop(["applicant_id", "high_risk"], axis=1)
 
